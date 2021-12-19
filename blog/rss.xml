@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>enableOps Blog</title>
-        <link>https://enableops.github.io/blog</link>
+        <link>https://enableops.io/blog</link>
         <description>enableOps Blog</description>
         <lastBuildDate>Fri, 19 Nov 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[ArgoCD with public charts and private values.yaml]]></title>
-            <link>https://enableops.github.io/blog/argocd-with-public-helm-charts-and-private-git</link>
+            <link>https://enableops.io/blog/argocd-with-public-helm-charts-and-private-git</link>
             <guid>argocd-with-public-helm-charts-and-private-git</guid>
             <pubDate>Fri, 19 Nov 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Using ArgoCD for proper GitOps is great. You define your workload, put it in VCS, point ArgoCD to it with proper credentials and you’re good. But there is a case, when you’re not the one developing some piece of software, but you do want to store it’s configuration privately.]]></description>
@@ -87,7 +87,7 @@ traefik-private-values   1         1         1       1            1           &l
         </item>
         <item>
             <title><![CDATA[What is GitOps? The ArgoCD version]]></title>
-            <link>https://enableops.github.io/blog/what-is-gitops-argocd</link>
+            <link>https://enableops.io/blog/what-is-gitops-argocd</link>
             <guid>what-is-gitops-argocd</guid>
             <pubDate>Thu, 18 Nov 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[GitOps is an approach. It’s not a product, not a tool. You can deliver software updates to the cloud, to Tesla car or hobby project based on Raspberry Pi with the help of GitOps.]]></description>
@@ -197,7 +197,7 @@ $
         </item>
         <item>
             <title><![CDATA[Getting started with Google Cloud & Terraform]]></title>
-            <link>https://enableops.github.io/blog/getting-started-with-google-cloud-terraform</link>
+            <link>https://enableops.io/blog/getting-started-with-google-cloud-terraform</link>
             <guid>getting-started-with-google-cloud-terraform</guid>
             <pubDate>Wed, 17 Nov 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[Thousands of startups start to use cloud every day and it’s truly a great way to start building your first infrastructure for new project.]]></description>

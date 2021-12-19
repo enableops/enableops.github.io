@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://enableops.github.io/blog</id>
+    <id>https://enableops.io/blog</id>
     <title>enableOps Blog</title>
     <updated>2021-11-19T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://enableops.github.io/blog"/>
+    <link rel="alternate" href="https://enableops.io/blog"/>
     <subtitle>enableOps Blog</subtitle>
-    <icon>https://enableops.github.io/img/favicon.ico</icon>
+    <icon>https://enableops.io/img/favicon.ico</icon>
     <entry>
         <title type="html"><![CDATA[ArgoCD with public charts and private values.yaml]]></title>
         <id>argocd-with-public-helm-charts-and-private-git</id>
-        <link href="https://enableops.github.io/blog/argocd-with-public-helm-charts-and-private-git"/>
+        <link href="https://enableops.io/blog/argocd-with-public-helm-charts-and-private-git"/>
         <updated>2021-11-19T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Using ArgoCD for proper GitOps is great. You define your workload, put it in VCS, point ArgoCD to it with proper credentials and you’re good. But there is a case, when you’re not the one developing some piece of software, but you do want to store it’s configuration privately.]]></summary>
         <content type="html"><![CDATA[<p>Using ArgoCD for proper GitOps is great. You define your workload, put it in VCS, point ArgoCD to it with proper credentials and you’re good. But there is a case, when you’re not the one developing some piece of software, but you do want to store it’s configuration privately.</p><p>We’re talking about public helm charts. Copying public chart to your repo is not something you would love to do and it will bring lot of hassle – you will end up in situation when chart was updated by creators, and you need to sync or update.</p><p>But configuration is sensitive data, so you want to keep it private. This is some part of functionality not yet covered by ArgoCD itself, because you can’t specify public repo and private repo for values.yaml at the same time.</p><p>Thankfully ArgoCD is extendable with plugins.</p><h2>Traefik plugin configuration and credentials</h2><p>First things first, we need to create ArgoCD plugin and add it to our installation</p><p>This is the configuration block for both our private repo with values.yaml and plugin:</p><pre><code class="language-yaml" metastring="title=&quot;values.yaml&quot;" title="&quot;values.yaml&quot;">---
@@ -92,7 +92,7 @@ traefik-private-values   1         1         1       1            1           &l
     <entry>
         <title type="html"><![CDATA[What is GitOps? The ArgoCD version]]></title>
         <id>what-is-gitops-argocd</id>
-        <link href="https://enableops.github.io/blog/what-is-gitops-argocd"/>
+        <link href="https://enableops.io/blog/what-is-gitops-argocd"/>
         <updated>2021-11-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[GitOps is an approach. It’s not a product, not a tool. You can deliver software updates to the cloud, to Tesla car or hobby project based on Raspberry Pi with the help of GitOps.]]></summary>
         <content type="html"><![CDATA[<p>GitOps is an approach. It’s not a product, not a tool. You can deliver software updates to the cloud, to Tesla car or hobby project based on Raspberry Pi with the help of GitOps.</p><p>Main thing to note here – unlike how operations were carried out in the past, with GitOps we can be sure not to miss <em>how</em> some operation was performed, because everything is stored (in git) now.</p><h2>Moving parts</h2><ul><li>application or automation code</li><li>VCS to store this code in</li><li>GitOps component which is performing an update</li><li>access to the environment which needs to be updated</li></ul><p>General scheme is quite simple – you change something, update is got deployed automatically somewhere. Forget about old-school uploading of artefacts to remote host and running some commands afterwards.
@@ -206,7 +206,7 @@ $
     <entry>
         <title type="html"><![CDATA[Getting started with Google Cloud & Terraform]]></title>
         <id>getting-started-with-google-cloud-terraform</id>
-        <link href="https://enableops.github.io/blog/getting-started-with-google-cloud-terraform"/>
+        <link href="https://enableops.io/blog/getting-started-with-google-cloud-terraform"/>
         <updated>2021-11-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Thousands of startups start to use cloud every day and it’s truly a great way to start building your first infrastructure for new project.]]></summary>
         <content type="html"><![CDATA[<p>Thousands of startups start to use cloud every day and it’s truly a great way to start building your first infrastructure for new project.</p><p>Most of the time people that are delegated with such tasks are very excited and also are quite limited in time. But the cloud is ever-expanding system with millions of features and some not really evident defaults. It is really hard to understand everything from first go, if you are not some 10 YOE professional.</p><p>But the most important thing – it’s incredibly hard to repeat all actions after something complex has already been set up. This is the moment when IaC (Infrastructure as code) comes in handy! And the best choice for that nowadays is Hashicorp Terraform. It has big community, lot’s of official modules and it is very stable and extendable.</p><h2>Start using Google Cloud</h2><p>Whenever you are using personal account, or Google Workspace was already set up, actions are basically identical. You can head over to <a href="http://cloud.google.com/">http://cloud.google.com/</a> to activate your cloud account. You may also want to activate your free trial, usually a message appears at the top of the page or in the center.
