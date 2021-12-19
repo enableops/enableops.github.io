@@ -18,6 +18,11 @@ const config = {
   trailingSlash: false,
   deploymentBranch: 'gh-pages',
 
+  customFields: {
+    description: 'enableOps was designed from the ground up to be easily installed and used to get your infrastructure up and running quickly.',
+  },
+
+
   presets: [
     [
       'classic',
