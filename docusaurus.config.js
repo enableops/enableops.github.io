@@ -57,11 +57,16 @@ const config = {
             position: 'left',
             label: 'Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/enableops/enableops.github.io',
-            label: 'GitHub',
+            to: '/blog',
+            label: 'Blog',
+            position: 'left'
+          },
+          {
+            type: 'doc',
+            docId: 'intro',
             position: 'right',
+            label: "Deploy your cluster!",
           },
         ],
       },
@@ -99,7 +104,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/enableops/enableops.github.io',
+                href: 'https://github.com/enableops',
               },
             ],
           },

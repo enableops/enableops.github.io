@@ -24,7 +24,7 @@ cloudshell_open --repo_url "https://source.developers.google.com/p/enableops/r/i
   --git_branch "main" --force_new_clone
 ```
 
-### Follow the tutorial in Cloud Shell
+## Follow the tutorial in Cloud Shell
 
 Just like that.
 
