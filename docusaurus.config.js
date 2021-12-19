@@ -48,7 +48,7 @@ const config = {
         title: 'enableOps',
         logo: {
           alt: 'enableOps Logo',
-          src: 'img/TwitterLogoShade.png',
+          src: 'img/small-logo.png',
         },
         items: [
           {
@@ -63,10 +63,9 @@ const config = {
             position: 'left'
           },
           {
-            type: 'doc',
-            docId: 'intro',
+            href: "https://signup.enableops.io",
             position: 'right',
-            label: "Deploy your cluster!",
+            label: "Deploy cluster in 5 min 🚀",
           },
         ],
       },
@@ -114,6 +113,10 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      colorMode: {
+        disableSwitch: true,
+        respectPrefersColorScheme: true,
       },
     }),
 };

@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Easy to Use',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('../../static/img/easy.svg').default,
     description: (
       <>
         enableOps was designed from the ground up to be easily installed and
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: 'Focus on What Matters',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('../../static/img/matters.svg').default,
     description: (
       <>
         enableOps lets you focus on your development, and we&apos;ll do the chores, like infrastructure or security.
@@ -24,7 +24,7 @@ const FeatureList = [
   },
   {
     title: 'Powered by Terraform',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('../../static/img/terraform.svg').default,
     description: (
       <>
         Extend or customize your network layout by changing variables in modules. enableOps can
