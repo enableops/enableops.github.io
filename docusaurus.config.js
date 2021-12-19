@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'enableOps',
   tagline: 'Throw off the shackles of cloud infrastructure complexity',
-  url: 'https://enableops.github.io',
+  url: 'https://enableops.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
