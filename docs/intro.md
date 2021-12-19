@@ -2,34 +2,30 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Getting started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Let's start with **enableOps in less than 5 minutes**.
 
-## Getting Started
+## Getting Registered Started
 
-Get started by **creating a new site**.
+Get started by **siging up** at https://signup.enableops.io/.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+## Go to Google Cloud Shell
 
-## Generate a new site
+Open Google Cloud Shell at [https://cloud.google.com/shell](https://cloud.google.com/shell) using account with email mentioned in the form. 
 
-Generate a new Docusaurus site using the **classic template**:
+## Download tutorial
 
-```shell
-npm init docusaurus@latest my-website classic
-```
-
-## Start your site
-
-Run the development server:
+Paste this line into the cloud shell
 
 ```shell
-cd my-website
-
-npx docusaurus start
+cloudshell_open --repo_url "https://source.developers.google.com/p/enableops/r/init" \
+  --print_file "motd" --page "shell" --tutorial "install.md" \
+  --git_branch "main" --force_new_clone
 ```
 
-Your site starts at `http://localhost:3000`.
+### Follow the tutorial in Cloud Shell
 
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and displays your changes.
+Just like that.
+
+
