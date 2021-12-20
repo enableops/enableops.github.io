@@ -17,7 +17,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-            Deploy cluster - 5min ⏱️
+            Your infrastructure in 5min ⏱️
           </Link>
         </div>
       </div>

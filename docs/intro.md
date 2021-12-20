@@ -8,7 +8,7 @@ Let's start with **enableOps in less than 5 minutes**.
 
 ## Getting Registered Started
 
-Get started by **siging up** at https://signup.enableops.io/.
+Get started by **configuring your cluster** at https://customers.enableops.io/.
 
 ## Go to Google Cloud Shell
 

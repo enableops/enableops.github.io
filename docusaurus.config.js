@@ -68,9 +68,10 @@ const config = {
             position: 'left'
           },
           {
-            href: "https://signup.enableops.io",
+            type: 'doc',
+            docId: 'intro',
             position: 'right',
-            label: "Deploy cluster in 5 min 🚀",
+            label: "Create cluster 🚀",
           },
         ],
       },
