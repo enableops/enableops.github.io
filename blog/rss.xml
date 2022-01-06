@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>enableOps Blog</title>
+        <link>https://enableops.io/blog</link>
+        <description>enableOps Blog</description>
+        <lastBuildDate>Fri, 19 Nov 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[ArgoCD with public charts and private values.yaml]]></title>
+            <link>https://enableops.io/blog/argocd-with-public-helm-charts-and-private-git</link>
+            <guid>argocd-with-public-helm-charts-and-private-git</guid>
+            <pubDate>Fri, 19 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Using ArgoCD for proper GitOps is great. You define your workload, put it in VCS, point ArgoCD to it with proper credentials and you’re good. But there is a case, when you’re not the one developing some piece of software, but you do want to store it’s configuration privately.]]></description>
+            <content:encoded><![CDATA[<p>Using ArgoCD for proper GitOps is great. You define your workload, put it in VCS, point ArgoCD to it with proper credentials and you’re good. But there is a case, when you’re not the one developing some piece of software, but you do want to store it’s configuration privately.</p><p>We’re talking about public helm charts. Copying public chart to your repo is not something you would love to do and it will bring lot of hassle – you will end up in situation when chart was updated by creators, and you need to sync or update.</p><p>But configuration is sensitive data, so you want to keep it private. This is some part of functionality not yet covered by ArgoCD itself, because you can’t specify public repo and private repo for values.yaml at the same time.</p><p>Thankfully ArgoCD is extendable with plugins.</p><h2>Traefik plugin configuration and credentials</h2><p>First things first, we need to create ArgoCD plugin and add it to our installation</p><p>This is the configuration block for both our private repo with values.yaml and plugin:</p><pre><code class="language-yaml" metastring="title=&quot;values.yaml&quot;" title="&quot;values.yaml&quot;">---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  repositories: |
+    - url: git@github.com:yellowmegaman/somerepo
+      sshPrivateKeySecret:
+        name: some-repo-key
+        key: sshPrivateKey
+  configManagementPlugins: |
+    - name: helm-resolver
+      init:
+        command: [bash, -c]
+        args: [&quot;helm repo add $REPO_NAME $REPO_URL &amp;&amp; helm repo update&quot;]
+      generate:
+        command: [bash, -c]
+        args: [&quot;helm template --include-crds -n $ARGOCD_APP_NAMESPACE $COMMAND $ARGOCD_APP_NAME $REPO_NAME/$CHART_NAME --version $CHART_VERSION&quot;]
+</code></pre><p>Add ssh private key to kubernetes secret:</p><pre><code class="language-shell">kubectl -n argocd create secret generic some-repo-key \\
+        --from-file=sshPrivateKey=$HOME/.ssh/id_ed25519
+</code></pre><h2>Application configuration</h2><p>In <code>yellowmegaman/somerepo</code> repo we have a folder <code>values</code> with file <code>traefik-values.yaml</code> with following contents:</p><pre><code class="language-yaml" metastring="title=&quot;traefik-values.yaml&quot;" title="&quot;traefik-values.yaml&quot;">deployment:
+  kind: DaemonSet
+additionalArguments:
+  - &quot;--api=true&quot;
+  - &quot;--api.insecure=true&quot;
+  - &quot;--accesslog=true&quot;
+  - &quot;--providers.kubernetesIngress.ingressClass=traefik-cert-manager&quot;
+</code></pre><p>We want to use it with official Traefik helm chart.</p><p>Let’s verify the installation:
+<img src="./first-installation-argocd.png" alt="Screenshot of installation in ArgoCD"/></p><p>Define application using helm-resolver plugin in app.yaml:</p><pre><code class="language-yaml" metastring="title=&quot;app.yaml&quot;" title="&quot;app.yaml&quot;">---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik-private-values
+  namespace: argocd
+spec:
+  destination:
+    namespace: traefik
+    server: &lt;https://555.555.555.555&gt;
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+  source:
+    path: values
+    plugin:
+      env:
+        - name:  REPO_NAME
+          value: &quot;traefik&quot;
+        - name:  REPO_URL
+          value: &quot;&lt;https://helm.traefik.io/traefik&gt;&quot;
+        - name:  CHART_NAME
+          value: &quot;traefik&quot;
+        - name:  CHART_VERSION
+          value: &quot;10.6.2&quot;
+        - name:  COMMAND
+          value: &quot;--values traefik-values.yaml&quot;
+      name: helm-resolver
+    repoURL: git@github.com/yellowmegaman/somerepo
+</code></pre><p>Apply application to local cluster:</p><pre><code class="language-shell">kubectl -n argocd apply -f app.yaml
+</code></pre><p>Verify installation in ArgoCD:
+<img src="./final-installation-argocd.png" alt="Screenshot of installation in ArgoCD"/></p><p>One of the main changes to the configuration in our <code>traefik-values.yaml</code> files was about changing deployment type to DaemonSet, let’s verify that this change was included in the deployment:</p><pre><code class="language-shell">k -n traefik get ds
+</code></pre><pre><code>$ k -n traefik get ds
+NAME                     DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+traefik-private-values   1         1         1       1            1           &lt;none&gt;          2m38s
+</code></pre><h2>Conclusion</h2><p>Now that we have everything in place, we can change official chart version or our privately stored values to trigger an update. Woot!</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[What is GitOps? The ArgoCD version]]></title>
+            <link>https://enableops.io/blog/what-is-gitops-argocd</link>
+            <guid>what-is-gitops-argocd</guid>
+            <pubDate>Thu, 18 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[GitOps is an approach. It’s not a product, not a tool. You can deliver software updates to the cloud, to Tesla car or hobby project based on Raspberry Pi with the help of GitOps.]]></description>
+            <content:encoded><![CDATA[<p>GitOps is an approach. It’s not a product, not a tool. You can deliver software updates to the cloud, to Tesla car or hobby project based on Raspberry Pi with the help of GitOps.</p><p>Main thing to note here – unlike how operations were carried out in the past, with GitOps we can be sure not to miss <em>how</em> some operation was performed, because everything is stored (in git) now.</p><h2>Moving parts</h2><ul><li>application or automation code</li><li>VCS to store this code in</li><li>GitOps component which is performing an update</li><li>access to the environment which needs to be updated</li></ul><p>General scheme is quite simple – you change something, update is got deployed automatically somewhere. Forget about old-school uploading of artefacts to remote host and running some commands afterwards.
+<img src="./moving-parts.png" alt="Moving parts"/></p><h2>Benefits</h2><ul><li>Deployment change is peer-reviewed</li><li>Full audit-log of actions performed against environment are stored in git and versioned</li><li>No need for personal access to environments, only the GitOps component has rights to perform update, on the behalf of programmatic means access like ServiceAccount</li><li>Easy to track changes from last deployment</li><li>Easy rollback to the previous version</li><li>Nice web UI 😁</li></ul><h2>ArgoCD</h2><p>Let’s install ArgoCD and connect it to GKE cluster</p><pre><code class="language-shell" metastring="title=&quot;terminal&quot;" title="&quot;terminal&quot;">helm repo add argo &lt;https://argoproj.github.io/argo-helm&gt;
+helm repo update
+helm install argocd --create-namespace \\
+                      --namespace argocd \\
+                      --set dex.enabled=false argo/argo-cd
+</code></pre><p>For this example we’re skipping ArgoCD DEX component, because installation is performed locally on docker for desktop kubernetes.</p><p>Now we can get the password for admin user:</p><pre><code class="language-shell" metastring="title=&quot;terminal&quot;" title="&quot;terminal&quot;">kubectl -n argocd get secret argocd-initial-admin-secret \\
+        -o jsonpath=&quot;{.data.password}&quot; | base64 -d
+</code></pre><p>Port-forward ArgoCD server to access it locally:</p><pre><code class="language-shell" metastring="title=&quot;terminal&quot;" title="&quot;terminal&quot;">kubectl port-forward service/argocd-server -n argocd 8080:443
+</code></pre><p>Now we can install ArgoCD CLI to add remove clusters. We also do need to authenticate ourselves against our local install. Use admin password from above:</p><pre><code class="language-shell">$ brew install argocd
+$ argocd login 127.0.0.1:8080
+WARNING: server certificate had error: x509: cannot validate certificate for 127.0.0.1 because it doesn&#x27;t contain any IP SANs. Proceed insecurely (y/n)? y
+Username: admin
+Password:
+&#x27;admin:login&#x27; logged in successfully
+Context &#x27;127.0.0.1:8080&#x27; updated
+$ argocd cluster list
+SERVER                          NAME        VERSION  STATUS   MESSAGE
+&lt;https://kubernetes.default.svc&gt;  in-cluster           Unknown  Cluster has no application and not being monitored.
+</code></pre><p>We can see now that ArgoCD is authenticated and shows the cluster which it is deployed into.</p><p>Now let&#x27;s add some remote GKE cluster from Google Cloud:</p><pre><code class="language-shell">$ gcloud container clusters get-credentials production --zone us-central1-f --project someproject-1337
+Fetching cluster endpoint and auth data.
+kubeconfig entry generated for production.
+$ kubectl config get-contexts
+CURRENT   NAME                                          CLUSTER                                         AUTHINFO                                     NAMESPACE
+          docker-desktop                                docker-desktop                                  docker-desktop
+*         gke_someproject-1337_us-central1-f_production gke_someproject-1337_us-central1-f_production   gke_someproject-1337_us-central1-f_production
+
+
+$ export GOOGLE_CREDENTIALS=terraform.json # we specify our ServiceAccount key
+$ argocd cluster add gke_someproject-1337_us-central1-f_production
+WARNING: This will create a service account `argocd-manager` on the cluster referenced by context `gke_someproject-1337_us-central1-f_argocd` with full cluster level admin privileges. Do you want to continue [y/N]? y
+INFO[0004] ClusterRole &quot;argocd-manager-role&quot; created
+INFO[0005] ClusterRoleBinding &quot;argocd-manager-role-binding&quot; updated
+Cluster &#x27;https://555.555.555.555&#x27; added
+
+$ argocd cluster list
+SERVER                          NAME                                             VERSION  STATUS   MESSAGE
+https://555.555.555.555         gke_someproject-1337_us-central1-f_production    Unknown  Cluster has no application and not being monitored.
+https://kubernetes.default.svc  in-cluster                                       Unknown  Cluster has no application and not being monitored.
+$
+</code></pre><p>What happened here?</p><ul><li>we got credentials for GKE cluster with the help of gcloud</li><li>looked at available kubectl contexts</li><li>exported ServiceAccount key location as env variable</li><li>added cluster to ArgoCD</li><li>checked that it was added properly</li></ul><p>:::tip</p><p>Important thing to note here. We&#x27;re using local credentials only once, after that ArgoCD creates it&#x27;s own k8s ServiceAccount in target cluster, this way authentication JWT token is not expiring, as it is with gcloud.</p><p>:::</p><h2>Deployment</h2><p>Now we can deploy our app. We gonna skip VCS part for this example, it requires additional configuration for ArgoCD private repos. You can check it out <a href="https://argo-cd.readthedocs.io/en/release-1.8/user-guide/private-repositories/">here</a>.</p><p>Save this example Traefik deployment manifest to disk:</p><pre><code class="language-yaml" metastring="title=&quot;Application-traefik.yaml&quot;" title="&quot;Application-traefik.yaml&quot;">---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+spec:
+  destination:
+    namespace: traefik
+    server: &lt;https://555.555.555.555&gt;
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+  source:
+    path: &#x27;&#x27;
+    repoURL: &lt;https://helm.traefik.io/traefik&gt;
+    chart: &quot;traefik&quot;
+    targetRevision: &quot;10.6.2&quot;
+    helm:
+      parameters:
+      - name: service.type
+        value: &quot;ClusterIP&quot;
+</code></pre><p>Now we are applying it locally to our docker-desktop cluster where ArgoCD is resided. It, in turn will sync this workload to remote GKE cluster</p><pre><code class="language-shell">$ kubectl -n argocd apply -f Application-traefik.yaml
+$ kubectl config use-context gke_someproject-1337_us-central1-f_production
+$ kubectl -n traefik get po
+NAME                       READY   STATUS    RESTARTS   AGE
+traefik-65c68d8dd7-qzmzp   0/1     Running   0          7s
+$ 
+</code></pre><p>Let’s check the web UI of our ArgoCD.</p><p>Open <a href="https://127.0.0.1:8080">https://127.0.0.1:8080</a> and log in. Certificate will be invalid, but that’s OK for local testing installation. Provide admin password obtained in previous step.
+<img src="./app-view.png" alt="Screenshot of app in ArgoCD"/></p><p>Application details:
+<img src="./app-details.png" alt="Screenshot of app details in ArgoCD"/></p><p>Now we have firm connection between ArgoCD GitOps component and GKE cluster, woot!</p><h2>Git part</h2><p>We can now proceed with configuration of private repos to pull changes from git, or apply changes locally.</p><p>We need to place repository secret (e.g. private key) in kubernetes secrets in argocd namespace.</p><p>After that we can apply private repo configuration:</p><pre><code class="language-shell">argocd repo add git@github.com:argoproj/argocd-example-apps.git \\
+                --ssh-private-key-path ~/.ssh/id_rsa
+</code></pre><p>Define the app:</p><pre><code class="language-yaml">---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  destination:
+    namespace: guestbook
+    server: &lt;https://555.555.555.555&gt;
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+  source:
+    path: &quot;guestbook&quot;
+    repoURL: &lt;https://github.com/argoproj/argocd-example-apps&gt;
+    targetRevision: HEAD
+</code></pre><p>Check target cluster:</p><pre><code class="language-shell">$ kubectl -n guestbook get po
+NAME                            READY   STATUS    RESTARTS   AGE
+guestbook-ui-85985d774c-ttn2p   1/1     Running   0          23s
+$ 
+</code></pre><p>From now on you can deploy applications from your private git repo. When you modify the files in <code>targetRevision</code> location, ArgoCD will update your cluster. Woot!</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Getting started with Google Cloud & Terraform]]></title>
+            <link>https://enableops.io/blog/getting-started-with-google-cloud-terraform</link>
+            <guid>getting-started-with-google-cloud-terraform</guid>
+            <pubDate>Wed, 17 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Thousands of startups start to use cloud every day and it’s truly a great way to start building your first infrastructure for new project.]]></description>
+            <content:encoded><![CDATA[<p>Thousands of startups start to use cloud every day and it’s truly a great way to start building your first infrastructure for new project.</p><p>Most of the time people that are delegated with such tasks are very excited and also are quite limited in time. But the cloud is ever-expanding system with millions of features and some not really evident defaults. It is really hard to understand everything from first go, if you are not some 10 YOE professional.</p><p>But the most important thing – it’s incredibly hard to repeat all actions after something complex has already been set up. This is the moment when IaC (Infrastructure as code) comes in handy! And the best choice for that nowadays is Hashicorp Terraform. It has big community, lot’s of official modules and it is very stable and extendable.</p><h2>Start using Google Cloud</h2><p>Whenever you are using personal account, or Google Workspace was already set up, actions are basically identical. You can head over to <a href="http://cloud.google.com/">http://cloud.google.com/</a> to activate your cloud account. You may also want to activate your free trial, usually a message appears at the top of the page or in the center.
+<img src="./google-cloud.png" alt="Google Cloud"/></p><p>If you chose to proceed with this great offer, or decided to skip it for now, you are just few steps away from getting proper IaC going with your new cloud account.</p><h2>Download and install gcloud (Google Cloud SDK)</h2><p>Mac users can user <a href="https://brew.sh/">brew</a> for that, otherwise you can follow download instructions <a href="https://cloud.google.com/sdk/docs/install">here</a>.</p><p>Brew installation example:</p><pre><code class="language-shell">brew install google-cloud-sdk
+</code></pre><p>After installation is complete it’s time to authenticate your gcloud cli</p><pre><code class="language-shell">gcloud auth login
+</code></pre><p>New tab in your browser will open to choose the account to use with gcloud. Important note here – you need to choose the proper account which was used to activate your new Google Cloud.
+<img src="./google-cloud-signin.png" alt="Google Cloud Sign In"/></p><p>Now that we have gcloud authenticated, we should set the project id. Project id can be found on main Dashboard page of google cloud.
+<img src="./google-cloud-project.png" alt="Google Cloud Project Info"/></p><p>Now that we have that id, let’s set it for gcloud and verify our newly added auth:</p><pre><code class="language-shell">$ gcloud config set project someproject-1337
+Updated property [core/project].
+yellowmegaman@Dmitrys-MacBook-Air ~ % gcloud auth list
+  Credentialed Accounts
+ACTIVE  ACCOUNT
+*       someone@somedomain.tld
+To set the active account, run:
+    $ gcloud config set account `ACCOUNT`
+$
+</code></pre><p>Awesome!</p><h2>Creating custom role and ServiceAccount for terraform</h2><p>Terraform requires a way to interact with any cloud or service. With Google Cloud the most preferred way is ServiceAccount which is granted some roles to perform actions.</p><p>First we create the role. We want to have a role that is permitted to interact with container clusters (GKE), cloud storage buckets (GCS), and create/update/delete ServiceAccounts. You can always add more permissions, or remove them.</p><p>Save this yaml code to your disk, like <code>terraform-Role.yaml</code></p><pre><code class="language-yaml" metastring="title=&quot;terraform-Role.yaml&quot;" title="&quot;terraform-Role.yaml&quot;">---
+title: terraform
+stage: GA
+description: terraform IaC role
+includedPermissions:
+  - compute.instanceGroupManagers.get
+  - container.clusters.create
+  - container.clusters.delete
+  - container.clusters.get
+  - container.clusters.getCredentials
+  - container.nodes.get
+  - container.nodes.list
+  - container.operations.get
+  - iam.serviceAccounts.create
+  - iam.serviceAccounts.delete
+  - iam.serviceAccounts.get
+  - iam.serviceAccounts.getAccessToken
+  - iam.serviceAccounts.list
+  - iam.serviceAccounts.update
+  - storage.buckets.create
+  - storage.buckets.delete
+  - storage.buckets.get
+  - storage.objects.create
+  - storage.objects.delete
+  - storage.objects.get
+  - storage.objects.getIamPolicy
+  - storage.objects.list
+  - storage.objects.setIamPolicy
+  - storage.objects.update
+</code></pre><p>Now we can create the role (replace <code>&lt;project_id&gt;</code> with your value):</p><pre><code class="language-shell">gcloud iam roles create &quot;terraform&quot; --project=&quot;&lt;project_id&gt;&quot; \\
+                                    --file=terraform-Role.yaml
+</code></pre><p>Let’s create terraform ServiceAccount and couple of role bindings (replace <code>&lt;project_id&gt;</code> with your value):</p><pre><code class="language-shell">$ gcloud iam service-accounts create &quot;terraform&quot; \\
+                --description=&quot;Terraform IaC service account&quot; \\
+                --display-name=&quot;terraform&quot;
+$ gcloud projects add-iam-policy-binding &quot;&lt;project_id&gt;&quot; \\
+   --member=&quot;serviceAccount:terraform@&lt;project_id&gt;.iam.gserviceaccount.com&quot; \\
+   --role=&quot;projects/&lt;project_id&gt;/roles/terraform&quot;
+$ gcloud projects add-iam-policy-binding &quot;&lt;project_id&gt;&quot; \\
+   --member=&quot;serviceAccount:terraform@&lt;project_id&gt;.iam.gserviceaccount.com&quot; \\
+   --role=&quot;roles/iam.serviceAccountUser&quot;
+$ gcloud projects add-iam-policy-binding &quot;&lt;project_id&gt;&quot; \\
+   --member=&quot;serviceAccount:terraform@&lt;project_id&gt;.iam.gserviceaccount.com&quot; \\
+   --role=&quot;roles/container.admin&quot;
+</code></pre><p>Now we can head over to <a href="https://console.cloud.google.com/iam-admin/iam">IAM &amp; Admin</a> in Google Cloud to verify the results:
+<img src="./google-cloud-iam.png" alt="Google Cloud IAM &amp; Admin"/></p><h2>Creating the ServiceAccount key</h2><p>Now that we have a ServiceAccount with proper roles attached, we need to obtain ServiceAccount key to provide it to terraform. Let’s create one (replace <code>&lt;project_id&gt;</code> with your value):</p><pre><code class="language-shell">gcloud iam service-accounts keys create terraform.json \\
+    --iam-account=terraform@&lt;project_id&gt;.iam.gserviceaccount.com
+</code></pre><p>After running this command you will have ServiceAccount json key that can be used for IaC with terraform and for many other services that do work with Google Cloud.</p><p>To use it with terraform you can just export env variable:</p><pre><code class="language-shell">export GOOGLE_CREDENTIALS=&lt;path_to_your_key.json&gt;
+</code></pre><p>What the benefits of using IaC from the start?</p><ul><li>solid backup of configuration of all you infrastructure parts</li><li>audit log of actions (if infra code is managed in VCS)</li><li>predictable state of infrastructure</li><li>hand-picked permissions, not just <code>Owner</code> role assigned to terraform as seen in many companies</li><li>better understanding what’s happening, instead of clicking random things on Web UI</li></ul>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
