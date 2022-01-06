@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[908],{4669:function(e){e.exports=JSON.parse('{"allTagsPath":"/enableops/enableops.github.io/gh-pages-dev/blog/tags","slug":"/enableops/enableops.github.io/gh-pages-dev/blog/tags/gitops","name":"gitops","count":2,"permalink":"/enableops/enableops.github.io/gh-pages-dev/blog/tags/gitops"}')}}]);

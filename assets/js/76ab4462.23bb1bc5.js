@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwebsite=self.webpackChunkwebsite||[]).push([[225],{5930:function(t){t.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/getting-started","name":"getting_started","count":1,"permalink":"/blog/tags/getting-started"}')}}]);
