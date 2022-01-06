@@ -17,6 +17,7 @@ jobs:
             echo "::set-output name=pages-branch::gh-pages"
           else
             echo "::set-output name=pages-branch::gh-pages-dev"
+            echo "module.exports.baseUrl = '/enableops/enableops.github.io/gh-pages-dev/';" >> docusaurus.config.js
           fi
       - uses: actions/setup-node@v2
         with:
