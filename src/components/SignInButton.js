@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export class SignInButton extends React.Component {
+import Button from '@mui/material/Button';
+import '@fontsource/roboto/500.css';
+
+export default class SignInButton extends React.Component {
     constructor(props) {
         super(props);
         this.state = { date: new Date().toLocaleTimeString() };
@@ -8,7 +11,13 @@ export class SignInButton extends React.Component {
     }
     
     render() {
-        return <div>It's {this.state.date}</div>;
+        return (
+                <Button onClick={this.buttonPressed} variant="contained" disableElevation > It's {this.state.date}</Button>
+        );
+    }
+
+    buttonPressed() {
+        console.log("pressed")
     }
 
     updateState() {
