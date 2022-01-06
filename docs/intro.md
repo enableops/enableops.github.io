@@ -1,14 +1,28 @@
 ---
 sidebar_position: 1
 ---
+import SignInButton from '../src/components/SignInButton';
+
 
 # Getting started
 
 Let's start with **enableOps in less than 5 minutes**.
 
-## Getting Registered Started
+## 0️⃣ Make sure you have Google Cloud project
 
-Get started by **configuring your cluster** at https://customers.enableops.io/.
+If you still don't - [follow official guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects).
+
+## 1️⃣ Register
+
+Get started by signing into our service. We will need your account to provide you with an access to cluster configuration. Also we need to make sure that you have an access to propper projects. 
+
+<SignInButton />
+
+## 2️⃣ Choose project
+
+Select the project
+
+<SignInButton />
 
 ## Go to Google Cloud Shell
 
