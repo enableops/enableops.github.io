@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 // Note: type annotations allow type checking and IDEs autocompletion
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
@@ -21,7 +21,6 @@ const config = {
   customFields: {
     description: 'enableOps was designed from the ground up to be easily installed and used to get your infrastructure up and running quickly.',
   },
-
 
   presets: [
     [
