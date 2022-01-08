@@ -28,7 +28,8 @@ export default class LoginButton extends React.Component {
   }
 
   getSettings = () => {
-    const settingsUrl = this.props.settings.baseUrl + this.props.settings.settingsUrl
+    const settingsUrl =
+      this.props.settings.baseUrl + this.props.settings.settingsUrl;
 
     fetch(settingsUrl)
       .then(this.handleErrors)
@@ -67,14 +68,6 @@ export default class LoginButton extends React.Component {
           sameSite: "strict",
         });
         this.props.updateStatus();
-        const profileUrl = this.props.settings.baseUrl + this.props.settings.profileUrl
-        fetch(profileUrl, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Authorization: "CSFR " + this.props.cookiesController.get("csfr_token"),
-          },
-        });
       })
       .catch(console.log);
   };

@@ -1,6 +1,5 @@
 import React from "react";
 
-import Cookies from "universal-cookie";
 import "@fontsource/roboto/500.css";
 import { LoadingButton } from "@mui/lab";
 import Stack from "@mui/material/Stack";
@@ -15,31 +14,30 @@ const Div = styled("div")(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-export default class SigninStep extends React.Component {
+export default class LoginStep extends React.Component {
   constructor(props) {
     super(props);
 
-    this.statusUpdater = props.statusUpdater;
-    this.cookies = this.statusUpdater.cookies;
-    this.settings = this.statusUpdater.settings;
-    this.statusUpdater.addCallback(this.getNewStatus)
+    this.controller = props.controller;
+    this.cookies = this.controller.cookies;
+    this.settings = this.controller.settings;
 
     this.state = {
       signStatus: "",
     };
   }
 
-  getNewStatus = (status) => {
-    
-  }
-
   updateSigninStatus = () => {
-    const signStatus = this.cookies.get("csfr_token") ? "success" : "login"
+    const signStatus = this.cookies.get("csfr_token") ? "in" : "out";
 
     this.setState({
       signStatus: signStatus,
     });
-    this.statusUpdater.updateStatus(signStatus)
+
+    let newState = { ...this.controller.state };
+    newState.loginState = signStatus;
+
+    this.controller.broadcastNewState(newState);
   };
 
   componentDidMount() {
@@ -49,7 +47,7 @@ export default class SigninStep extends React.Component {
   render() {
     const currentState = () => {
       switch (this.state.signStatus) {
-        case "login":
+        case "out":
           return (
             <GoogleLogin
               cookiesController={this.cookies}
@@ -57,7 +55,7 @@ export default class SigninStep extends React.Component {
               settings={this.settings}
             />
           );
-        case "success":
+        case "in":
           return (
             <UserInfo
               cookiesController={this.cookies}

@@ -1,48 +1,106 @@
 import React from "react";
 
-import "@fontsource/roboto/500.css";
-import { LoadingButton } from "@mui/lab";
-import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
-
-const Div = styled("div")(({ theme }) => ({
-  ...theme.typography.button,
-  backgroundColor: theme.palette.background.paper,
-  padding: theme.spacing(1),
-}));
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import Select from "@mui/material/Select";
 
 export default class SelectStep extends React.Component {
   constructor(props) {
     super(props);
 
-    this.statusUpdater = props.statusUpdater;
-    this.cookies = this.statusUpdater.cookies;
-    this.settings = this.statusUpdater.settings;
-    this.statusUpdater.addCallback(this.getNewStatus);
+    this.controller = props.controller;
+    this.cookies = this.controller.cookies;
+    this.settings = this.controller.settings;
+    this.controller.addCallback(this.updateSignInState);
 
     this.state = {
-      signStatus: null,
+      singInState: {
+        loginState: null,
+        selectedProjectId: "",
+        configurationStatus: null,
+      },
+      projects: [],
     };
   }
 
-  getNewStatus = (newStatus) => {
-    this.setState({ signStatus: newStatus });
+  handleErrors(response) {
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+    return response;
+  }
+
+  fetchProjects = () => {
+    const projectsUrl = this.settings.baseUrl + this.settings.projectsUrl;
+    fetch(projectsUrl, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Authorization: "CSFR " + this.cookies.get("csfr_token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((receivedProjects) => this.setState({ projects: receivedProjects }))
+      .catch(console.log);
+  };
+
+  updateSignInState = (newState) => {
+    if (
+      newState.loginState === "in" &&
+      this.state.singInState.loginState != "in"
+    ) {
+      this.fetchProjects();
+    }
+
+    this.setState({ singInState: newState });
+  };
+
+  handleChange = (event) => {
+    let newSingInState = { ...this.state.singInState };
+    newSingInState.selectedProjectId = event.target.value;
+
+    this.setState({ singInState: newSingInState }, () => {
+      this.controller.broadcastNewState({ ...this.state.singInState });
+    });
   };
 
   render() {
-    const currentState = () => {
-      switch (this.state.signStatus) {
-        case "success":
-          return <h1>YYEEEAAAAAH</h1>;
-        default:
-          return (
-            <LoadingButton loading variant="text">
-              Loading
-            </LoadingButton>
-          );
-      }
-    };
+    return (
+      <Box sx={{ minWidth: 120, maxWidth: 400 }}>
+        <FormControl
+          disabled={this.state.singInState.loginState != "in"}
+          fullWidth
+        >
+          <InputLabel id="project-select-label">
+            Select Cloud Project
+          </InputLabel>
+          <Select
+            labelId="project-select-label"
+            id="project-select"
+            value={this.state.singInState.selectedProjectId}
+            label="Select Cloud Project"
+            onChange={this.handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
 
-    return currentState();
+            {this.state.projects.map((project) => (
+              <MenuItem key={project.id} value={project.id}>
+                {project.name}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>
+            {this.state.singInState.loginState === "in"
+              ? " "
+              : "Please sign in first"}
+          </FormHelperText>
+        </FormControl>
+      </Box>
+    );
   }
 }

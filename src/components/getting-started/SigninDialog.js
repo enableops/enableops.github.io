@@ -27,16 +27,15 @@ export default class SigninDialog extends React.Component {
           onClose={this.props.handleDialogClose}
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle>Access is only needed for enableOps init</DialogTitle>
+          <DialogTitle>Profile information and list of GCP Projects</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              Let us help you setup environment by giving us an access to list
-              of your projects.
+            We need this data only for the configuration and deployment process, we won't store any of your personal information on our servers. Feel free to <a href="https://myaccount.google.com/permissions" target="__blank">clear us out from permissions</a> after setup.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleDialogClose}>Disagree</Button>
-            <Button onClick={this.props.handleAgree}>Agree</Button>
+            <Button onClick={this.props.handleDialogClose}>Cancel setup</Button>
+            <Button onClick={this.props.handleAgree}>Proceed</Button>
           </DialogActions>
         </Dialog>
       </div>
