@@ -48,6 +48,7 @@ export default class LoginButton extends React.Component {
   };
 
   onGoodGoogleResponse = (authData) => {
+    this.closeDialog();
     fetch(this.state.authSettings.token_url, {
       method: "POST",
       credentials: "include",
@@ -79,12 +80,12 @@ export default class LoginButton extends React.Component {
   };
 
   onBadGoogleResponse = (data) => {
+    this.closeDialog();
     console.log(data.error);
   };
 
   handleOpen = (onClick) => {
     return () => {
-      this.closeDialog();
       onClick();
     };
   };

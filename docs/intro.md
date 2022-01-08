@@ -1,45 +1,33 @@
 ---
 sidebar_position: 1
+title: Getting started 
 ---
-import SigninStep from '../src/components/getting-started/SigninStep';
-
-
-# Getting started
+import { StatusUpdater, SigninStep, SelectStep } from '../src/components/getting-started';
+export const statusUpdater = new StatusUpdater();
 
 Let's start with **enableOps in less than 5 minutes**.
 
-## 0️⃣ Make sure you have Google Cloud project
+## ⛅️ Check your Cloud project
 
-If you still don't - [follow official guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects).
+Make sure you have Google Project Set up with billing info. If you still don't - [follow official guide](https://cloud.google.com/resource-manager/docs/creating-managing-projects).
 
-## 1️⃣ Register
+## ⛳️ Sign in to enableOps
 
 Get started by signing into our service. We will need your account to provide you with an access to cluster configuration. Also we need to make sure that you have an access to propper projects. 
 
-<SigninStep />
+<SigninStep statusUpdater={statusUpdater}/>
 
-## 2️⃣ Choose project
+## 🎖 Select project
 
 Select the project
 
+<SelectStep statusUpdater={statusUpdater}/>
 
+## 🧬 Configure enableOps
 
-## Go to Google Cloud Shell
+## 🚀 Deploy your cluster
 
 Open Google Cloud Shell at [https://cloud.google.com/shell](https://cloud.google.com/shell) using account with email mentioned in the form. 
 
-## Download tutorial
-
-Paste this line into the cloud shell
-
-```shell
-cloudshell_open --repo_url "https://source.developers.google.com/p/enableops/r/init" \
-  --print_file "motd" --page "shell" --tutorial "install.md" \
-  --git_branch "main" --force_new_clone
-```
-
-## Follow the tutorial in Cloud Shell
-
-Just like that.
 
 
