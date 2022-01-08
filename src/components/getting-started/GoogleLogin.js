@@ -1,20 +1,13 @@
 import React from "react";
 import fetch from "cross-fetch";
 import GoogleLogin from "react-google-login";
-import "@fontsource/roboto/500.css";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faUserPlus, faCoffee } from "@fortawesome/free-solid-svg-icons";
-import Button from "@mui/material/Button";
 import { LoadingButton } from "@mui/lab";
 import FaceIcon from "@mui/icons-material/Face";
-import Cookies from "universal-cookie";
 import SigninDialog from "./SigninDialog";
 
 export default class LoginButton extends React.Component {
   constructor(props) {
     super(props);
-
-    this.config = require('./config')
 
     this.state = {
       authSettings: null,
@@ -35,8 +28,7 @@ export default class LoginButton extends React.Component {
   }
 
   getSettings = () => {
-    let settingsUrl = this.config.baseUrl + this.config.settingsUrl
-    console.log(settingsUrl)
+    const settingsUrl = this.props.settings.baseUrl + this.props.settings.settingsUrl
 
     fetch(settingsUrl)
       .then(this.handleErrors)
@@ -56,8 +48,6 @@ export default class LoginButton extends React.Component {
   };
 
   onGoodGoogleResponse = (authData) => {
-    let cookies = new Cookies();
-
     fetch(this.state.authSettings.token_url, {
       method: "POST",
       credentials: "include",
@@ -69,17 +59,19 @@ export default class LoginButton extends React.Component {
       .then(this.handleErrors)
       .then((response) => response.json())
       .then((data) => {
-        cookies.set("csfr_token", data.csrf_token, {
+        this.props.cookiesController.set("csfr_token", data.csrf_token, {
           path: "/",
           secure: true,
           httpOnly: false,
           sameSite: "strict",
         });
-        fetch("http://127.0.0.1:8000/v1/users/me/profile", {
+        this.props.updateStatus();
+        const profileUrl = this.props.settings.baseUrl + this.props.settings.profileUrl
+        fetch(profileUrl, {
           method: "GET",
           credentials: "include",
           headers: {
-            Authorization: "CSFR " + cookies.get("csfr_token"),
+            Authorization: "CSFR " + this.props.cookiesController.get("csfr_token"),
           },
         });
       })
@@ -109,7 +101,7 @@ export default class LoginButton extends React.Component {
           loadingPosition="end"
           endIcon={<FaceIcon />}
         >
-          Register with Google account
+          Sign in with google
         </LoadingButton>
         <SigninDialog
           open={this.state.showingDialog}
