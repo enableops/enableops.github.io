@@ -14,8 +14,10 @@ export default class LoginButton extends React.Component {
   constructor(props) {
     super(props);
 
+    this.config = require('./config')
+
     this.state = {
-      settings: null,
+      authSettings: null,
       showingDialog: false,
       loading: false,
     };
@@ -33,11 +35,14 @@ export default class LoginButton extends React.Component {
   }
 
   getSettings = () => {
-    fetch(this.props.apiAddress)
+    let settingsUrl = this.config.baseUrl + this.config.settingsUrl
+    console.log(settingsUrl)
+
+    fetch(settingsUrl)
       .then(this.handleErrors)
       .then((response) => response.json())
-      .then((settings) => {
-        this.setState({ settings: settings });
+      .then((settingsResponse) => {
+        this.setState({ authSettings: settingsResponse });
       })
       .catch(console.log);
   };
@@ -53,7 +58,7 @@ export default class LoginButton extends React.Component {
   onGoodGoogleResponse = (authData) => {
     let cookies = new Cookies();
 
-    fetch(this.state.settings.token_url, {
+    fetch(this.state.authSettings.token_url, {
       method: "POST",
       credentials: "include",
       body: new URLSearchParams({
@@ -116,7 +121,7 @@ export default class LoginButton extends React.Component {
   };
 
   googleLogin() {
-    let settings = this.state.settings;
+    let settings = this.state.authSettings;
 
     return (
       <GoogleLogin
@@ -137,7 +142,7 @@ export default class LoginButton extends React.Component {
   render() {
     return (
       <div>
-        {this.state.settings ? this.googleLogin(this.state.settigs) : null}
+        {this.state.authSettings ? this.googleLogin(this.state.settigs) : null}
       </div>
     );
   }

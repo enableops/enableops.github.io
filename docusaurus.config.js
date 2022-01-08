@@ -1,45 +1,47 @@
 // @ts-nocheck
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const lightCodeTheme = require("prism-react-renderer/themes/github");
+const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'enableOps',
-  tagline: 'Throw off the shackles of cloud infrastructure complexity',
-  url: 'https://enableops.io',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
-  organizationName: 'enableops', // Usually your GitHub org/user name.
-  projectName: 'enableops.github.io', // Usually your repo name.
+  title: "enableOps",
+  tagline: "Throw off the shackles of cloud infrastructure complexity",
+  url: "https://enableops.io",
+  baseUrl: "/",
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
+  favicon: "img/favicon.ico",
+  organizationName: "enableops", // Usually your GitHub org/user name.
+  projectName: "enableops.github.io", // Usually your repo name.
   trailingSlash: false,
-  deploymentBranch: 'gh-pages',
+  deploymentBranch: "gh-pages",
 
   customFields: {
-    description: 'enableOps was designed from the ground up to be easily installed and used to get your infrastructure up and running quickly.',
+    description:
+      "enableOps was designed from the ground up to be easily installed and used to get your infrastructure up and running quickly.",
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: 'https://github.com/enableops/enableops.github.io/edit/main/',
+          editUrl:
+            "https://github.com/enableops/enableops.github.io/edit/main/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/enableops/enableops.github.io/edit/main/blog/',
+            "https://github.com/enableops/enableops.github.io/edit/main/blog/",
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       }),
     ],
@@ -49,66 +51,66 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'enableOps',
+        title: "enableOps",
         logo: {
-          alt: 'enableOps Logo',
-          src: 'img/small-logo.png',
+          alt: "enableOps Logo",
+          src: "img/small-logo.png",
         },
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Documentation',
+            type: "doc",
+            docId: "intro",
+            position: "left",
+            label: "Documentation",
           },
           {
-            to: '/blog',
-            label: 'Blog',
-            position: 'left'
+            to: "/blog",
+            label: "Blog",
+            position: "left",
           },
           {
-            type: 'doc',
-            docId: 'intro',
-            position: 'right',
+            type: "doc",
+            docId: "intro",
+            position: "right",
             label: "Create cluster 🚀",
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: "dark",
         links: [
           {
-            title: 'Docs',
+            title: "Docs",
             items: [
               {
-                label: 'Manual',
-                to: '/docs/intro',
+                label: "Manual",
+                to: "/docs/intro",
               },
             ],
           },
           {
-            title: 'Socials',
+            title: "Socials",
             items: [
               {
-                label: 'LinkedIn',
-                href: 'https://www.linkedin.com/company/enableops',
+                label: "LinkedIn",
+                href: "https://www.linkedin.com/company/enableops",
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/enableops',
+                label: "Twitter",
+                href: "https://twitter.com/enableops",
               },
             ],
           },
           {
-            title: 'More',
+            title: "More",
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: "Blog",
+                to: "/blog",
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/enableops',
+                label: "GitHub",
+                href: "https://github.com/enableops",
               },
             ],
           },
