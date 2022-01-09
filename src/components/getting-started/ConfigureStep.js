@@ -155,13 +155,13 @@ export default class SelectStep extends React.Component {
               ? this.state.singInState.configurationStatus === 100
                 ? "outlined"
                 : "contained"
-              : "text"
+              : "outlined"
           }
           disableElevation
         >
           {this.state.singInState.selectedProjectId
             ? "Prepare configuration"
-            : "NO Project selected"}
+            : "Please select project first"}
         </LoadingButton>
         {this.state.singInState.configurationStatus != null ? (
           <Box sx={{ width: "100%" }}>

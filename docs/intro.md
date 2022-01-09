@@ -61,7 +61,7 @@ Now just hit the button, sit back and relax. We will need some moments to compil
 
 ## 🚀 Deploy your cluster
 
-Clicking this big green button will start your personal and secure Google Cloud Shell environment where you will be able to deploy the cluster. Don't worry, once you will open Google Cloud Shell you will see additional tutorial from us. 
+Clicking this *green button* will start your personal and secure Google Cloud Shell environment where you will be able to deploy the cluster. Don't worry, once you will open Google Cloud Shell you will see additional tutorial from us. 
 
 <DeployStep controller={controller}/>
 

@@ -30,11 +30,10 @@ export default class SelectStep extends React.Component {
     return (
       <Button
         color="success"
-        size="large"
         variant={
           this.state.singInState.configurationStatus === 100
             ? "contained"
-            : "text"
+            : "outlined"
         }
         disableElevation
         disabled={this.state.singInState.configurationStatus != 100}
@@ -47,7 +46,7 @@ export default class SelectStep extends React.Component {
       >
         {this.state.singInState.configurationStatus === 100
           ? "Start deployment"
-          : "No configuration"}
+          : "Waiting configuration"}
       </Button>
     );
   }
