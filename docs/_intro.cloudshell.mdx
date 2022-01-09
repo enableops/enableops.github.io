@@ -1,0 +1,11 @@
+import CodeBlock from '@theme/CodeBlock';
+
+export const settings = require("../src/components/getting-started/config.js");
+
+<CodeBlock className="language-shell">
+{`cloudshell_open \\
+  --repo_url "${settings.cloudShellRepo}" \\
+  --page "shell" \\
+  --tutorial "${settings.cloudShellTutorial}" \\
+  --force_new_clone`}
+</CodeBlock>

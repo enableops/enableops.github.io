@@ -9,6 +9,7 @@ import {
   ConfigureStep,
   DeployStep,
 } from "../src/components/getting-started";
+import CloudShellCommand from './_intro.cloudshell.mdx';
 import YouTube from 'react-youtube';
 export const controller = new SignUpController();
 
@@ -69,11 +70,12 @@ Clicking this big green button will start your personal and secure Google Cloud 
 
 :::caution use the same account
 
-Make sure you are usining the same Google account when opening Google Cloud Shell as you used when signing in on this page. 
+Make sure you are usining the same Google account in Google Cloud Shell as you used when signing in on this page. If you have more than one account and for *any reason* 💩 Cloud Shell decided to use your other account - no worries, just switch it using upper right block with your avatar and in newly oppened shell enter:
+
+<CloudShellCommand />
+
+And continue with tutorial there 🖖
 
 :::
 
 *By the way, [Google Cloud Shell is a very handy service](https://cloud.google.com/shell#features), it's free and will give you a quick way to try new things without installing anything on your local machine. We recommend to have it in your sleeve.*  
-
-
-
