@@ -5,5 +5,5 @@ module.exports = {
   deploymentsUrl: "/v1/users/me/deployments/",
   cloudShellUrl: "https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https%3A%2F%2Fgithub.com%2Fenableops%2Fenableops.github.io&cloudshell_tutorial=README.md&shellonly=true",
   logoutUrl: "/v1/auth/logout",
-  baseUrl: "http://127.0.0.1:8000"
+  baseUrl: "https://api.enableops.io"
 }
