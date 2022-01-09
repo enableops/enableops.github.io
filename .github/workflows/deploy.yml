@@ -13,7 +13,7 @@ jobs:
       - name: Get & set variables
         id: set-variables
         run: |
-          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" ]]; then
+          if [[ "${{github.base_ref}}" == "main" || "${{github.ref}}" == "refs/heads/main" || "$(git branch --remote --verbose --no-abbrev --contains | sed -rne 's/^[^\/]*\/([^\ ]+).*$/\1/p' | grep -v 'HEAD' | head -1)" == "main" ]]; then
             echo "::set-output name=pages-branch::gh-pages"
           else
             echo "::set-output name=pages-branch::gh-pages-dev"
