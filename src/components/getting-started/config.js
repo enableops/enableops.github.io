@@ -1,7 +1,9 @@
-const cloudShellRepo = "https://github.com/enableops/enableops.github.io";
-const cloudShellTutorial = "README.md";
+const cloudShellRepo = "https://source.developers.google.com/p/enableops-io/r/init";
+const cloudShellTutorial = "enableops.md";
+const cloudShellMotd = "enableops.motd";
 const cloudShellUrl =
   "https://ssh.cloud.google.com/cloudshell/editor?shellonly=true" +
+  `&cloudshell_print=${encodeURI(cloudShellMotd)}` +
   `&cloudshell_git_repo=${encodeURI(cloudShellRepo)}` +
   `&cloudshell_tutorial=${encodeURI(cloudShellTutorial)}`;
 
