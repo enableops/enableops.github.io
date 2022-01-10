@@ -23,7 +23,7 @@ GCP can be a bit owerwhelming at start, so here is an introductionary video abou
 
 <YouTube videoId="GKEk1FzAN1A" opts={{width:"100%", height: '400'}}/>
 
-Don't worry, you don't neet to be a GCP genius to use enableOps, you just need project and we will get you covered from there.  
+Don't worry, you don't neet to be a GCP genius to use enableOps, you just need project and we will get you covered.  
 
 :::caution Billing Warning
 
@@ -35,7 +35,7 @@ Make sure you have your billing in project set up. Otherwise we will not be able
 
 *Phew, now with the hardest part behind us we can finilize the setup. Seriously, we have only 3 small steps and 1 copy-paste shell command left.*
 
-**We are security first** = we won't be asking you for direct access to your cluster and it's you who will be running deployment commands, for this you (and your project) will need an access to our modules, therefore we need to authenticate your `google accout` and read a `list of projects` available to you. 
+**We are security first** = we won't be asking you for direct access to your cluster and it's you who will be running deployment commands, for this you (and your project) will need to have access to our modules, therefore we need to authenticate your `google accout` and read a `list of projects` available to you. 
 
 <LoginStep controller={controller}/>
 
@@ -49,19 +49,19 @@ We need this data only for the configuration and deployment process, we won't st
 
 ## 🎖 Select project
 
-Choose the project which you will be deploying your cluster to. Make sure you have all the rights to enable APIs and add Service accounts. The admin level rights will do. 
+Choose the project which you will be deploying your resources to. Make sure you have all the rights to enable APIs and add Service accounts. The Owner level rights will do. 
 
 <SelectStep controller={controller}/>
 
 ## 🧬 Configure enableOps
 
-Now just hit the button, sit back and relax. We will need some moments to compile configuration files for your project to let you deploy it with one line in shell. 
+Now just hit the button, sit back and relax. It will take some time to compile configuration files for your project to let you deploy it with one line in shell. 
 
 <ConfigureStep controller={controller}/>
 
 ## 🚀 Deploy your cluster
 
-Clicking this *green button* will start your personal and secure Google Cloud Shell environment where you will be able to deploy the cluster. Don't worry, once you will open Google Cloud Shell you will see additional tutorial from us. 
+Clicking this *green button* will start your personal and secure Google Cloud Shell environment where you will be able to deploy the cluster. Don't worry, once opened, Google Cloud Shell will show additional tutorial for you to follow.
 
 <DeployStep controller={controller}/>
 
@@ -70,7 +70,7 @@ Clicking this *green button* will start your personal and secure Google Cloud Sh
 
 :::caution use the same account
 
-Make sure you are usining the same Google account in Google Cloud Shell as you used when signing in on this page. If you have more than one account and for *any reason* 💩 Cloud Shell decided to use your other account - no worries, just switch it using upper right block with your avatar and in newly oppened shell enter:
+Make sure you are using the same Google account in Google Cloud Shell as the one you've used to sign in on this page. If you have more than one account and for *some reason* Cloud Shell decided to use just not the right one - no worries, just click on your avatar in the upper right corner to switch it and enter the command in the newly opened shell:
 
 <CloudShellCommand />
 
