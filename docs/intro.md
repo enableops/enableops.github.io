@@ -49,7 +49,7 @@ We need this data only for the configuration and deployment process, we won't st
 
 ## 🎖 Select project
 
-Choose the project which you will be deploying your resources to. Make sure you have all the rights to enable APIs and add Service accounts. The Owner level rights will do. 
+Choose the project which you will be deploying your resources to. Make sure you have all the rights to enable APIs and add Service accounts. The *Owner* level rights will do. 
 
 <SelectStep controller={controller}/>
 
