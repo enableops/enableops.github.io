@@ -46,7 +46,7 @@ export default class SelectStep extends React.Component {
       >
         {this.state.singInState.configurationStatus === 100
           ? "Start deployment"
-          : "Waiting configuration"}
+          : "Waiting for configuration"}
       </Button>
     );
   }
