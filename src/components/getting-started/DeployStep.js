@@ -29,6 +29,7 @@ export default class SelectStep extends React.Component {
   render() {
     return (
       <Button
+        target="_blank"
         color="success"
         variant={
           this.state.singInState.configurationStatus === 100
