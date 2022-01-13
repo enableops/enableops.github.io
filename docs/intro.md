@@ -12,10 +12,13 @@ import {
 import CloudShellCommand from './_intro.cloudshell.mdx';
 import YouTube from 'react-youtube';
 export const controller = new SignUpController();
+import TerminalBanner from "../src/components/TerminalBanner";
 
 From zero to 🚀 fully operational cloud environment for production (GitOps) and development (CI/CD) without prior DevOps knowledge with our 🤖 *interactive guide*.
 
 ## ☁️ Check your Cloud project
+
+<asciinema-player src="/test.cast"></asciinema-player>
 
 First things first - the cloud! You have to make sure you have an access to already created *GCP (Google Cloud Platform)* Project. This is our main requirement for you, and we don't mind if it will be project with lots of people and data there or just freshly created one.
 

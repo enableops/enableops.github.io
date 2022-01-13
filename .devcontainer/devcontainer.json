@@ -1,0 +1,20 @@
+{
+	"name": "enableops-web",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+
+	"settings": {},
+
+	"extensions": [
+		"dbaeumer.vscode-eslint",
+	],
+
+	"remoteUser": "node",
+	"features": {
+		"docker-from-docker": "latest",
+		"kubectl-helm-minikube": "latest",
+		"terraform": "latest",
+		"github-cli": "latest"
+	}
+}

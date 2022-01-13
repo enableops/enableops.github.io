@@ -1,4 +1,5 @@
-const cloudShellRepo = "https://source.developers.google.com/p/enableops-io/r/init";
+const cloudShellRepo =
+  "https://source.developers.google.com/p/enableops-io/r/init";
 const cloudShellTutorial = "enableops.md";
 const cloudShellMotd = "enableops.motd";
 const cloudShellUrl =
@@ -16,5 +17,5 @@ module.exports = {
   cloudShellRepo: cloudShellRepo,
   cloudShellTutorial: cloudShellTutorial,
   logoutUrl: "/v1/auth/logout",
-  baseUrl: "https://api.enableops.io",
+  baseUrl: "https://api.enableops.lol",
 };
