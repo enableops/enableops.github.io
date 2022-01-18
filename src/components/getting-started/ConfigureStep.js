@@ -36,6 +36,10 @@ export default class SelectStep extends React.Component {
   }
 
   handleFlavourSelect = (event, newFlavour) => {
+    if (!newFlavour) {
+      return;
+    }
+
     let newSingInState = { ...this.state.singInState };
     newSingInState.flavour = newFlavour;
 
