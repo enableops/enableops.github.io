@@ -11,6 +11,7 @@ export default class LoginButton extends React.Component {
 
     this.state = {
       authSettings: null,
+      flavour: "ecommerce",
       showingDialog: false,
       loading: false,
     };

@@ -6,6 +6,7 @@ export default class SignUpController {
     this.settings = require("./config");
     this.state = {
       loginState: null,
+      flavour: "ecommerce",
       selectedProjectId: "",
       configurationStatus: null,
     };

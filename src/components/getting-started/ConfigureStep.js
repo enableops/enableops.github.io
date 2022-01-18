@@ -1,11 +1,19 @@
 import React from "react";
 
-import Stack from "@mui/material/Stack";
 import { LoadingButton } from "@mui/lab";
-import LinearProgress from "@mui/material/LinearProgress";
 import OutdoorGrillIcon from "@mui/icons-material/OutdoorGrill";
-import Box from "@mui/material/Box";
 import CheckIcon from "@mui/icons-material/Check";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SavingsIcon from "@mui/icons-material/Savings";
+import ApiIcon from "@mui/icons-material/Api";
+
+import {
+  Box,
+  LinearProgress,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 
 export default class SelectStep extends React.Component {
   constructor(props) {
@@ -19,12 +27,22 @@ export default class SelectStep extends React.Component {
     this.state = {
       singInState: {
         loginState: null,
+        flavour: "ecommerce",
         selectedProjectId: "",
         configurationStatus: null,
       },
       projects: [],
     };
   }
+
+  handleFlavourSelect = (event, newFlavour) => {
+    let newSingInState = { ...this.state.singInState };
+    newSingInState.flavour = newFlavour;
+
+    this.setState({ singInState: newSingInState }, () => {
+      this.controller.broadcastNewState({ ...this.state.singInState });
+    });
+  };
 
   handleErrors(response) {
     if (!response.ok) {
@@ -128,6 +146,30 @@ export default class SelectStep extends React.Component {
   render() {
     return (
       <Stack direction="column" alignItems="flex-start" spacing={2}>
+        <ToggleButtonGroup
+          value={
+            !this.state.singInState.selectedProjectId
+              ? null
+              : this.state.singInState.flavour
+          }
+          exclusive
+          onChange={this.handleFlavourSelect}
+          disabled={!this.state.singInState.selectedProjectId}
+          color="primary"
+        >
+          <ToggleButton value="ecommerce">
+            <ShoppingCartIcon />
+            &nbsp;&nbsp;E-commerce
+          </ToggleButton>
+          <ToggleButton value="pythonpostgres">
+            <ApiIcon />
+            &nbsp;&nbsp;Python & PostgreSQL
+          </ToggleButton>
+          <ToggleButton value="blockchain">
+            <SavingsIcon />
+            &nbsp;&nbsp;Blockchain
+          </ToggleButton>
+        </ToggleButtonGroup>
         <LoadingButton
           loading={
             this.state.singInState.configurationStatus != null &&
