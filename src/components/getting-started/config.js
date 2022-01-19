@@ -16,6 +16,6 @@ module.exports = {
   cloudShellUrl: cloudShellUrl,
   cloudShellRepo: cloudShellRepo,
   cloudShellTutorial: cloudShellTutorial,
+  cloudShellMotd: cloudShellMotd,
   logoutUrl: "/v1/auth/logout",
-  baseUrl: "https://api.enableops.lol",
 };
