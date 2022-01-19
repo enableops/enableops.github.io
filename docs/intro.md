@@ -13,7 +13,6 @@ DeployStep,
 import CloudShellCommand from './\_intro.cloudshell.mdx';
 import YouTube from 'react-youtube';
 export const controller = new SignUpController();
-import HeroBanner from "../src/components/HeroBanner";
 
 From zero to 🚀 fully operational cloud environment for production (GitOps) and development (CI/CD) without prior DevOps knowledge with our 🤖 _interactive guide_.
 
