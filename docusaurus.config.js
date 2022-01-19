@@ -52,10 +52,14 @@ const config = {
         },
         items: [
           {
-            type: "doc",
-            docId: "intro",
+            to: "/docs/intro",
             position: "left",
-            label: "Documentation",
+            label: "Tutorial",
+          },
+          {
+            to: "/docs/reference",
+            position: "left",
+            label: "Reference",
           },
           {
             to: "/blog",

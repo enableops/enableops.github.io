@@ -29,6 +29,17 @@ const sidebars = {
       },
       items: ["how-to/configure-infra", "how-to/configure-contents"],
     },
+    {
+      type: "category",
+      label: "Reference",
+      link: {
+        type: "generated-index",
+        title: "Reference",
+        description: "Learn about the most important enableOps concepts!",
+        slug: "/reference",
+      },
+      items: ["reference/configuration"],
+    },
   ],
   // But you can create a sidebar manually
   /*

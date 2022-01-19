@@ -1,0 +1,25 @@
+---
+id: configuration
+title: Configuration modules reference
+sidebar_label: Configuration
+---
+
+## Cluster
+
+- module name `terraform-module-google-gke`
+- latest release `terraform-module-google-gke_v0.0.8.zip`
+- source type `gcs`
+- repo `https://www.googleapis.com/storage/v1/terraform-enableops-modules/`
+
+```yaml title='Usage example'
+module "gke_outpost" {
+source       = "gcs::https://www.googleapis.com/storage/v1/terraform-enableops-modules/terraform-module-google-gke/terraform-module-google-gke_v0.0.8.zip"
+cluster_name = "outpost"
+location     = var.google_gloud_zone
+}
+```
+
+| parameter | example               | type   | is required |
+| --------- | --------------------- | ------ | ----------- |
+| name      | outpost               | string | true        |
+| location  | var.google_gloud_zone | string | true        |
