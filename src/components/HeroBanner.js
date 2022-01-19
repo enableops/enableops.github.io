@@ -1,12 +1,5 @@
 import React, { useState } from "react";
 
-import ReactFlow, {
-  removeElements,
-  addEdge,
-  MiniMap,
-  Controls,
-  Background,
-} from "react-flow-renderer";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -36,6 +29,51 @@ const Item = styled(Paper)(({ theme }) => ({
 const duration = 12;
 const timeToSwitch = 0.2;
 const switchSpeed = 0.05;
+
+const animatedButton = (image, x, y, rotate) => {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        top: 0,
+        left: 0,
+      }}
+    >
+      <motion.div
+        style={{ scale: 0.0, y: 150 }}
+        animate={{
+          x: [0, x, x],
+          y: [150, y, y],
+          scale: [0.0, 0.5, 0.5],
+          rotate: [0, rotate, rotate],
+        }}
+        transition={{
+          times: [timeToSwitch, timeToSwitch + switchSpeed, 1],
+          duration: duration,
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
+      >
+        <motion.div
+          animate={{
+            scale: [1, 0.95],
+            rotate: [0, -1],
+          }}
+          transition={{
+            ease: "easeInOut",
+            duration: 3,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+        >
+          <img src={image} style={{ height: 60 }} alt="Logo" />
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+};
 
 const animatedBlock = (image, x, y, rotate) => {
   return (
@@ -113,12 +151,7 @@ const OverviewFlow = () => {
             md={7}
             style={{ position: "relative", textAlign: "center" }}
           >
-            {animatedBlock(
-              "https://styles.redditmedia.com/t5_4wmnyu/styles/communityIcon_2pv56jvnhlh71.png",
-              100,
-              -100,
-              12
-            )}
+            {animatedButton("img/hero/tested.png", -120, 210, 0)}
             {animatedBlock(
               "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/1234px-Kubernetes_logo_without_workmark.svg.png",
               0,
@@ -131,12 +164,20 @@ const OverviewFlow = () => {
               50,
               -10
             )}
+            {animatedButton("img/hero/duplicate.png", 200, 40, 0)}
+            {animatedBlock(
+              "https://styles.redditmedia.com/t5_4wmnyu/styles/communityIcon_2pv56jvnhlh71.png",
+              100,
+              -100,
+              12
+            )}
             {animatedBlock(
               "https://miro.medium.com/max/566/1*CdKKJPCgmansKROEz_YufA.png",
               -50,
               -100,
               -15
             )}
+            {animatedButton("img/hero/rollback.png", -180, 30, 0)}
             {animatedBlock(
               "https://miro.medium.com/max/918/1*xcQGl-ZqVIOGsfK9QX8fIA.png",
               -160,
