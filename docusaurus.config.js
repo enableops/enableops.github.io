@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "enableOps",
-  tagline: "Throw off the shackles of cloud infrastructure complexity",
+  tagline: "Effortless GitOps, CI/CD on Kubernetes for developers",
   url: "https://enableops.io",
   baseUrl: "/",
   onBrokenLinks: "throw",
@@ -24,7 +24,7 @@ const config = {
   },
   scripts: [
     {
-      src: '/js/asciinema-player.min.js',
+      src: "/js/asciinema-player.min.js",
       async: true,
     },
   ],
