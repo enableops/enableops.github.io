@@ -31,7 +31,7 @@ export default class CloudShellBlock extends React.Component {
       <CodeBlock className="language-shell">
         {`cloudshell_open \\
         --repo_url "${this.settings.cloudShellRepo}" \\
-        --git_branch "${this.state.singInState.flavour}" \\
+        --workspace "${this.state.singInState.flavour}" \\
         --print_file "${this.settings.cloudShellMotd}" \\
         --page "shell" \\
         --tutorial "${this.settings.cloudShellTutorial}" \\
