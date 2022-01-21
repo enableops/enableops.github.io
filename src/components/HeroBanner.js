@@ -5,6 +5,7 @@ import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 const duration = 6;
 const timeToSwitch = 0.5;
@@ -58,22 +59,21 @@ const floatingBlock = (image, height, scale, x, y, rotate) => {
 };
 
 const OverviewFlow = () => {
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} alignItems="flex-end" justifyContent="center">
         <Grid item md={5}>
           <Stack spacing={2} justifyContent="flex-start">
-            <h1 style={{ fontSize: "2.9em" }}>
-              Effortless GitOps, CI/CD on Kubernetes for developers
-            </h1>
+            <h1 style={{ fontSize: "2.9em" }}>{siteConfig.tagline}</h1>
             <Link
               to="/docs/intro"
               className="button button--secondary button--lg"
             >
-              Deploy dev and production in 15 min
+              Mighty cluster in 15 min 🚀
             </Link>
             <span>
-              🍰 <em>zero knowledge required </em>
+              🍰 <em>zero knowledge required, don't hire a devops yet!</em>
             </span>
           </Stack>
         </Grid>

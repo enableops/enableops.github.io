@@ -7,7 +7,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "enableOps",
-  tagline: "Effortless GitOps, CI/CD on Kubernetes for developers",
+  tagline: "Effortless GitOps, CI/CD on Kubernetes for compact teams",
   url: "https://enableops.io",
   baseUrl: "/",
   onBrokenLinks: "throw",
