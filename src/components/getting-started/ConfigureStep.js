@@ -165,7 +165,7 @@ export default class SelectStep extends React.Component {
             <ShoppingCartIcon />
             &nbsp;&nbsp;E-commerce
           </ToggleButton>
-          <ToggleButton value="pythonpostgres">
+          <ToggleButton value="python">
             <ApiIcon />
             &nbsp;&nbsp;Python & PostgreSQL
           </ToggleButton>
