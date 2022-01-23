@@ -1,0 +1,66 @@
+---
+title: enableOps 101
+---
+
+import YouTube from "react-youtube";
+
+Now you are done with the initialization and it's time to dive into
+the details of your new _infra (short for infrastructure)_.
+
+_Infra_ is where you develop, test your code as well as where your production
+code runs. Its your dev and production environment.
+
+## GitOps principle
+
+Every infra created by enableOps service is declared as Code.
+So the only way to change something (e.g. roll out new version of your app,
+or add a new testing cluster) is to update the code in one of infra
+repositories that were created during initializing phase. And for a little bit
+more info on that topic you can watch this video:
+
+<YouTube videoId="f5EpcWp0THw" opts={{ width: "100%", height: "400" }} />
+
+## Building blocks
+
+To keep it dead simple there are two components:
+infra **configuration** and infra **contents**.
+
+### Configuration
+
+git repo `terraform-enableops-infra`
+
+Configuration is a code for initializing all the components you have in your
+infrastructure with required parameters, starting from git repositories
+and up to numerous clusters. By default it includes:
+
+- Declaration of _cloud providers_: where to run your _infra_.
+- _Git repositories_: where to store your code (incl. infra related code).
+- _Storage for artifacts_: where to store states, container images, etc.
+- Global _variables and secrets_: global versions, global credentials.
+- _Clusters/environments_: how many nodes should be in each of your cluster, etc.
+
+Examples of when will you need to change the configuration:
+
+- Duplicate production environment for testing purposes.
+- Add code declaration for your DNS Zone.
+- Create a git repository for new app.
+
+See [how to configure infra](./how-to/configure-infra.mdx) for instructions.
+
+### Contents
+
+git repo `gitops-enableops-infra`
+
+Contents is a code for declaring content of your infra, it answers
+a question "what should be deployed and where". By default it will include:
+
+- Proxy service for exposing your web apps and securing them with tls.
+- Monitoring service to let you know if something is wrong with infrastructure.
+- Secrets management service for better security.
+
+Examples of when will you need to change the contents declaration:
+
+- Add new app (e.g. redis) to your dev environment.
+- Deploy a new version of your backend to production by updating version variable.
+
+See [how to deploy](./how-to/configure-contents.mdx) for instructions.

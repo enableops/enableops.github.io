@@ -1,0 +1,73 @@
+---
+id: configure-contents
+title: How-to deploy
+sidebar_label: Deploy
+---
+
+import YouTube from "react-youtube";
+
+Clusters content is [YAML files](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/)
+stored in `gitops-enableops-infra` repo and managed by `ArgoCD`. If you're
+not familiar with ArgoCD yet, you can watch this video:
+
+<YouTube videoId="MeU5_k9ssrs" opts={{ width: "100%", height: "400" }} />
+
+## Process of changing contents
+
+It's pretty similar to changing configuration.
+
+First you need to update the code in repo. ArgoCD daemon who is constantly
+checking for git repo updates will notice change and will check the difference
+between the current and desired content of your infrastructure and will apply updates.
+
+It's a good idea to use _pull requests_ technique when updating
+your configuration.
+
+## Deployment configuration
+
+Each deployment is ArgoCD application declared in a Kubernetes manifest,
+which can be configured in numerous ways. Let's see an example:
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    targetRevision: HEAD
+    path: guestbook
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: guestbook
+```
+
+Here we can see what is deployed - `source` and where it's deployed - `destination`.
+
+### Source
+
+Source can be a repo, a folder, or HELM chart link.
+
+```yaml
+source:
+  repoURL: https://github.com/argoproj/argocd-example-apps.git
+  targetRevision: HEAD
+  path: guestbook
+```
+
+### Destination
+
+The destination is telling ArgoCD to what cluster this app should be deployed.
+
+```yaml
+destination:
+  server: https://kubernetes.default.svc
+  namespace: guestbook
+```
+
+## Still have questions?
+
+We are ready to help, just let us know!

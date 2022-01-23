@@ -1,0 +1,78 @@
+---
+id: configure-infra
+title: How-to configure your infra
+sidebar_label: Configure
+---
+
+import YouTube from "react-youtube";
+
+Configuration is [HCL files](https://www.terraform.io/language/modules/syntax)
+stored in `terraform-enableops-infra` repo and managed by `terraform`.
+If you're not familiar with terraform yet, you can watch this video:
+
+<YouTube videoId="l5k1ai_GBDE" opts={{ width: "100%", height: "400" }} />
+
+## Process of changing configuration
+
+First you need to update the code in repo. Then github action will start
+`terraform apply` script which will check the difference between the current
+and desired state of your infrastructure and will apply updates.
+
+It's a good idea to use _pull requests_ technique when updating
+your configuration.
+
+## Initial structure
+
+When you initialize your enableOps environment you will have
+the following configuration structure:
+
+- `.github/workflows` - configuration apply automation
+- `enableops-clusters.tf` - clusters configuration
+- `enableops-providers.tf` - global toolset
+- `enableops-variables.tf` - global variables
+- `enableops.tf` - repositories configuration
+- `remote-state.tf` - terraform state storage declaration
+
+## Modules of infra configuration
+
+For your convinience we are managing the code of modules and exposing
+simple building blocks which you can parametrize and use in your configuration.
+
+```hcl title="Generic configuration block"
+module "unique_name" {
+  source = "gcs::https://module.source_v0.0.3.zip"
+  param1 = "outpost"
+  param2 = var.some_variable
+}
+```
+
+If you will find that you need additional parameters or modules - just let
+us know and we will help you.
+
+Let's see an example.
+
+### Cluster configuration
+
+To define a cluster we need to create a cloud cluster first and then create
+argocd managed cluster instance, so it will support content declaration.
+
+```hcl title="Simple cluster"
+module "gke_outpost" {
+  source       = "gcs::https://www.googleapis.com/storage/v1/terraform-enableops-modules/terraform-module-google-gke/terraform-module-google-gke_v0.0.8.zip"
+  cluster_name = "outpost"
+  location     = var.google_gloud_zone
+}
+
+module "argocd-cluster-outpost" {
+  source         = "gcs::https://www.googleapis.com/storage/v1/terraform-enableops-modules/terraform-module-argocd-cluster/terraform-module-argocd-cluster_v0.0.16.zip"
+  argocd_cluster = module.gke_argo
+  google_token   = data.google_client_config.enableops.access_token
+  cluster        = module.gke_outpost
+  argocd_status  = module.argocd.argocd_helm_status
+  deployed       = true
+}
+```
+
+## Still have questions?
+
+We are ready to help, just let us know!
