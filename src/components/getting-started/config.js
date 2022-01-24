@@ -23,5 +23,5 @@ module.exports = {
   cloudShellTutorial: cloudShellTutorial,
   cloudShellMotd: cloudShellMotd,
   logoutUrl: "/v1/auth/logout",
-  baseUrl: "https://eops-api.casa.chenchik.me",
+  baseUrl: "https://api.enableops.io",
 };
