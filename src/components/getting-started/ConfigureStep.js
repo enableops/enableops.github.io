@@ -81,6 +81,10 @@ export default class SelectStep extends React.Component {
         );
         let progress = null;
         if (deployment) {
+          if (this.state.singInState.flavour !== deployment.flavour) {
+            this.handleFlavourSelect(null, deployment.flavour);
+          }
+
           let status = deployment.status;
 
           progress = 0;
@@ -133,7 +137,10 @@ export default class SelectStep extends React.Component {
 
   dispatchConfiguration = () => {
     const deploymentsUrl = this.settings.baseUrl + this.settings.deploymentsUrl;
-    const data = { project_id: this.state.singInState.selectedProjectId };
+    const data = {
+      project_id: this.state.singInState.selectedProjectId,
+      flavour: this.state.singInState.flavour,
+    };
     fetch(deploymentsUrl, {
       method: "POST",
       credentials: "include",
@@ -158,7 +165,10 @@ export default class SelectStep extends React.Component {
           }
           exclusive
           onChange={this.handleFlavourSelect}
-          disabled={!this.state.singInState.selectedProjectId}
+          disabled={
+            !this.state.singInState.selectedProjectId ||
+            this.state.singInState.configurationStatus !== null
+          }
           color="primary"
         >
           <ToggleButton value="ecommerce">
