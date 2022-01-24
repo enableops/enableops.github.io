@@ -7,6 +7,7 @@ export default class SignUpController {
     this.settings.baseUrl = "https://api.enableops.io";
     this.state = {
       loginState: null,
+      flavour: "ecommerce",
       selectedProjectId: "",
       configurationStatus: null,
     };

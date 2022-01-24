@@ -19,6 +19,7 @@ export default class SelectStep extends React.Component {
     this.state = {
       singInState: {
         loginState: null,
+        flavour: "ecommerce",
         selectedProjectId: "",
         configurationStatus: null,
       },

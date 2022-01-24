@@ -15,6 +15,7 @@ export default class SelectStep extends React.Component {
     this.state = {
       singInState: {
         loginState: null,
+        flavour: "ecommerce",
         selectedProjectId: "",
         configurationStatus: null,
       },
@@ -43,7 +44,7 @@ export default class SelectStep extends React.Component {
             <TerminalIcon />
           ) : null
         }
-        href={this.settings.cloudShellUrl}
+        href={this.settings.cloudShellUrl(this.state.singInState.flavour)}
       >
         {this.state.singInState.configurationStatus === 100
           ? "Start deployment"
