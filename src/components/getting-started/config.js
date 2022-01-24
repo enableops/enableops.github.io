@@ -8,7 +8,6 @@ const cloudShellUrl = (flavour) => {
     "https://ssh.cloud.google.com/cloudshell/editor?shellonly=true" +
     `&cloudshell_print=${encodeURI(cloudShellMotd)}` +
     `&cloudshell_git_repo=${encodeURI(cloudShellRepo)}` +
-    `&cloudshell_workspace=${encodeURI(flavour)}` +
     `&cloudshell_tutorial=${encodeURI(cloudShellTutorial)}`
   );
 };
