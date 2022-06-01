@@ -87,13 +87,12 @@ export default class SelectStep extends React.Component {
 
           let status = deployment.status;
 
-          progress = 0;
-          if (status === "CREATED") {
+          if (status === "CONFIGURE_FAILED" || status === "REMOVE_FAILED") {
+            progress = 0;
+          } else if (status === "CREATED") {
             progress = 5;
-          } else if (status === "DISPATCHED") {
+          } else if (status === "CONFIGURE_REQUIRED") {
             progress = 15;
-          } else if (status === "ADDED") {
-            progress = 45;
           } else if (status === "CONFIGURED") {
             progress = 100;
           }

@@ -14,9 +14,9 @@ const cloudShellUrl = (flavour) => {
 
 module.exports = {
   settingsUrl: "/v1/auth/settings",
-  profileUrl: "/v1/users/me/profile",
-  projectsUrl: "/v1/users/me/project_ids",
-  deploymentsUrl: "/v1/users/me/deployments/",
+  profileUrl: "/v1/user/profile",
+  projectsUrl: "/v1/user/gcloud_projects",
+  deploymentsUrl: "/v1/user/projects/",
   cloudShellUrl: cloudShellUrl,
   cloudShellRepo: cloudShellRepo,
   cloudShellTutorial: cloudShellTutorial,
