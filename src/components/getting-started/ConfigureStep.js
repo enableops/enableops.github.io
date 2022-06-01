@@ -164,6 +164,7 @@ export default class SelectStep extends React.Component {
           }
           exclusive
           onChange={this.handleFlavourSelect}
+          // FIXME: add support to disable if flavor selected on first deploy
           disabled={
             !this.state.singInState.selectedProjectId ||
             this.state.singInState.configurationStatus !== null
