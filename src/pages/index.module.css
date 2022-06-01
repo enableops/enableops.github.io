@@ -8,7 +8,14 @@
   text-align: left;
   position: relative;
   overflow: hidden;
+}
+
+[data-theme='light'] .heroBanner {
   background-color: #0f1b27;
+}
+
+[data-theme='dark'] .heroBanner {
+  background-color: #c5cfdf;
 }
 
 @media screen and (max-width: 966px) {
