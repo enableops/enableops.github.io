@@ -10,7 +10,6 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Tooltip from '@mui/material/Tooltip';
 
-
 import YouTube from 'react-youtube';
 
 const duration = 6;
@@ -101,8 +100,8 @@ function SimpleBackdrop() {
         onClick={handleClose}
       >
         <YouTube videoId="1xcHyeoPkvc" opts={{ width: "700", height: "500" }} onReady={_onReady} />
-      </Backdrop></Stack>
-
+      </Backdrop>
+    </Stack>
   );
 }
 const PeaceOfCake = React.forwardRef(function MyComponent(props, ref) {
@@ -122,17 +121,16 @@ const OverviewFlow = () => {
               <Tooltip title="zero knowledge required, don't hire a devops yet!" placement="right" arrow>
                 <PeaceOfCake />
               </Tooltip>
-
             </h1>
+
             <SimpleBackdrop />
+
             <Link
               to="/docs/intro"
               className="button button--secondary button--lg"
             >
               Mighty cluster in 15 min 🚀
             </Link>
-
-
           </Stack>
         </Grid>
         <Grid item md={7} style={{ position: "relative", textAlign: "center" }}>
