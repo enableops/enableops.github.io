@@ -14,6 +14,8 @@ CloudShellBlock
 import YouTube from 'react-youtube';
 export const controller = new SignUpController();
 
+<YouTube videoId="1xcHyeoPkvc" opts={{width:"100%", height: '400'}}/>
+
 From zero to 🚀 fully operational cloud environment for production (GitOps) and development (CI/CD) without prior DevOps knowledge with our 🤖 _interactive guide_.
 
 ## ☁️ Check your Cloud project
