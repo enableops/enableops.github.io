@@ -8,12 +8,11 @@ import HeroBanner from "../components/HeroBanner";
 
 function HomepageHeader() {
   return (
-    <div><header className={clsx("hero hero--primary", styles.heroBanner)}>
+    <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <HeroBanner />
       </div>
     </header>
-    </div>
   );
 }
 
