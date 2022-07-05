@@ -1,16 +1,12 @@
 import React from "react";
 
-import Backdrop from '@mui/material/Backdrop';
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import { motion } from "framer-motion";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import Tooltip from '@mui/material/Tooltip';
 
-import YouTube from 'react-youtube';
 
 const duration = 6;
 const timeToSwitch = 0.5;
@@ -63,52 +59,6 @@ const floatingBlock = (image, height, scale, x, y, rotate) => {
   );
 };
 
-function SimpleBackdrop() {
-  const [open, setOpen] = React.useState(false);
-  const [player, setPlayer] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-    player.pauseVideo();
-  };
-
-  const handleToggle = () => {
-    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
-
-    if (isMobile) {
-      window.location.href = "https://www.youtube.com/watch?v=1xcHyeoPkvc";
-    } else {
-      if (!open) {
-        player.playVideo();
-      }
-      setOpen(!open);
-    }
-  };
-
-  const _onReady = (event) => {
-    // access to player in all event handlers via event.target
-    event.target.pauseVideo();
-    setPlayer(event.target);
-  }
-
-  return (
-    <Stack spacing={2} justifyContent="flex-start">
-      <Link onClick={handleToggle} className="button button--lg" style={{ backgroundColor: 'rgba(235,237,240,0.2)' }} >📹 See it in action</Link>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={handleClose}
-      >
-        <YouTube videoId="1xcHyeoPkvc" opts={{ width: "700", height: "500" }} onReady={_onReady} />
-      </Backdrop>
-    </Stack>
-  );
-}
-const PeaceOfCake = React.forwardRef(function MyComponent(props, ref) {
-  //  Spread the props to the underlying DOM element.
-  return <sup {...props} ref={ref} style={{ verticalAlign: "top", fontSize: "0.6em" }}>🍰</sup>
-});
-
 const OverviewFlow = () => {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -116,15 +66,7 @@ const OverviewFlow = () => {
       <Grid container spacing={2} alignItems="flex-end" justifyContent="center">
         <Grid item md={5}>
           <Stack spacing={2} justifyContent="flex-start">
-            <h1 style={{ fontSize: "2.9em" }}>
-              {siteConfig.tagline}
-              <Tooltip title="zero knowledge required, don't hire a devops yet!" placement="right" arrow>
-                <PeaceOfCake />
-              </Tooltip>
-            </h1>
-
-            <SimpleBackdrop />
-
+            <h1 style={{ fontSize: "2.9em" }}>{siteConfig.tagline}</h1>
             <Link
               to="/docs/intro"
               className="button button--secondary button--lg"
